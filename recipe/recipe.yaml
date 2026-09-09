@@ -93,6 +93,23 @@ tests:
       - if: win
         then: if not exist %LIBRARY_LIB%\\libx264.lib exit 1
       - x264 --help
+  # Windows only: compile upstream example.c against the installed import
+  # library, verify the PE architecture of the built binaries and consumer,
+  # and encode eight frames through both the API and CLI, checking for
+  # SPS/PPS/IDR and slice NAL units. The MSVC toolchain (cl) is needed to
+  # build example.c and test_windows.c with the Windows SDK.
+  - if: win
+    then:
+      - script: run_test.bat
+        requirements:
+          build:
+            - ${{ compiler("c") }}
+            - ${{ stdlib("c") }}
+        files:
+          source:
+            - example.c
+          recipe:
+            - test_windows.c
 
 about:
   license: GPL-2.0-or-later

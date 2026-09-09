@@ -20,8 +20,17 @@ if errorlevel 1 exit 1
 make -j%CPU_COUNT%
 if errorlevel 1 exit 1
 
+rem checkasm uses GNU C statement expressions; clang-cl keeps the MSVC ABI.
+make -j%CPU_COUNT% checkasm CC=clang-cl
+if errorlevel 1 exit 1
+
+checkasm8.exe
+if errorlevel 1 exit 1
+checkasm10.exe
+if errorlevel 1 exit 1
+
 make install
 if errorlevel 1 exit 1
 
-move %LIBRARY_LIB%\libx264.dll.lib %LIBRARY_LIB%\libx264.lib 
+move %LIBRARY_LIB%\libx264.dll.lib %LIBRARY_LIB%\libx264.lib
 if errorlevel 1 exit 1
