@@ -1,7 +1,12 @@
 @ECHO ON
 
-rem Set the assembler to `nasm`
-set AS=%BUILD_PREFIX%\Library\bin\nasm.exe
+rem On ARM64 let configure select its bundled gas-preprocessor and armasm64.
+if "%target_platform%"=="win-arm64" (
+  set "AS="
+) else (
+  rem Set the assembler to `nasm`
+  set AS=%BUILD_PREFIX%\Library\bin\nasm.exe
+)
 
 :REM --system-libx264 makes windows choose the shared library for the x264 cli argument
 :REM instead of the static library
